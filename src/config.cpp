@@ -92,8 +92,8 @@ Config::Config(int dummy) {
     else if (sel == 0) { std::cout << "Using default settings." << std::endl; }
     else if (sel == 1) {
         std::cout << "Please select game mode:" << std::endl;
-        std::cout << "   0. no surroundind walls;" << std::endl;
-        std::cout << "   1. with surroundind walls (game will end if snake hits any boundaries)." << std::endl;
+        std::cout << "   0. no surrounding walls;" << std::endl;
+        std::cout << "   1. with surrounding walls (game will end if snake hits any boundaries)." << std::endl;
         std::cin >> gameMode;
 
         std::cout << "Please select screen refresh rate:" << std::endl;

@@ -2,11 +2,12 @@
 #include <iostream>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : snake(grid_width, grid_height),
+//bug that places food out the scope of the grid is fix by modifying the random number generators
+Game::Game(std::size_t grid_width, std::size_t grid_height, std::size_t game_mode)
+    : snake(grid_width, grid_height, game_mode),
       engine(dev()),
-      random_w(0, static_cast<int>(grid_width)),
-      random_h(0, static_cast<int>(grid_height)) {
+      random_w(0, static_cast<int>(grid_width)-1), //ensure food will be placed inside the grid
+      random_h(0, static_cast<int>(grid_height)-1) {//ensure food will be placed inside the grid
   PlaceFood();
 }
 
@@ -19,7 +20,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   int frame_count = 0;
   bool running = true;
 
-  while (running) {
+  while (running*snake.alive) { //fix the screen freezing when the snake is dead
     frame_start = SDL_GetTicks();
 
     // Input, Update, Render - the main game loop.
@@ -60,6 +61,7 @@ void Game::PlaceFood() {
     if (!snake.SnakeCell(x, y)) {
       food.x = x;
       food.y = y;
+      //std::cout << x << "," << y << std::endl; //debugging illegal food placment
       return;
     }
   }
